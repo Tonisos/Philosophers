@@ -1,2 +1,4 @@
 https://github.com/Glagan/42-Philosophers/blob/master/philo_one/philosophers.h
 https://franckh.developpez.com/tutoriels/posix/pthreads/
+
+https://github.com/pulgamecanica/42Course/blob/main/42Core/philosophers/includes/philosophers.h
