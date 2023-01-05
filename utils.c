@@ -6,7 +6,7 @@
 /*   By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 08:13:13 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/05 09:03:10 by amontalb         ###   ########.fr       */
+/*   Updated: 2023/01/05 14:21:53 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 
 
-int ft_get_time()
+long long ft_get_time()
 {
 	struct timeval time;
 	gettimeofday(&time, NULL);

@@ -6,7 +6,7 @@
 /*   By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 14:18:12 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/05 12:19:02 by amontalb         ###   ########.fr       */
+/*   Updated: 2023/01/05 14:29:04 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 int ft_to_finnish(t_data *data)
 {
 	int	i;
+	int compt;
 
 	while (1)
 	{
@@ -25,14 +26,27 @@ int ft_to_finnish(t_data *data)
 			if ((ft_get_time() - data->philos[i].last_meal) > data->time_to_die)
 			{
 				pthread_mutex_unlock(&data->wait);
-				printf("[%d] Philosopher number %d died\n", ft_time_from_start(&data->philos[i]), data->philos[i].position);
+				printf(NORMAL"[%d] Philosopher number %d died\n", ft_time_from_start(&data->philos[i]), data->philos[i].position);
 				exit (0);
 			}
 			i++;
 		}
-		// while (i < data)
+		i = 0;
+		compt = 0;
+		while (i < data->nbr_philo)
+		{
+			if(data->philos[i].nbr_meal == data->nbr_meal)
+				compt ++;
+			if (compt == data->nbr_philo)
+			{
+				printf("Tout le monde a graille a sa faim\n");
+				exit (0);
+
+			}
+			i++;
+		}
 	}
-	
+	return (0);
 }
 
 
