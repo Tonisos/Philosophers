@@ -6,11 +6,35 @@
 /*   By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 14:18:12 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/04 18:13:00 by amontalb         ###   ########.fr       */
+/*   Updated: 2023/01/05 12:19:02 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+
+int ft_to_finnish(t_data *data)
+{
+	int	i;
+
+	while (1)
+	{
+		i = 0;
+		while (i < data->nbr_philo)
+		{
+			if ((ft_get_time() - data->philos[i].last_meal) > data->time_to_die)
+			{
+				pthread_mutex_unlock(&data->wait);
+				printf("[%d] Philosopher number %d died\n", ft_time_from_start(&data->philos[i]), data->philos[i].position);
+				exit (0);
+			}
+			i++;
+		}
+		// while (i < data)
+	}
+	
+}
+
 
 int	main(int argc, char **argv)
 {
@@ -20,10 +44,10 @@ int	main(int argc, char **argv)
 	// 	return (0);
 	if (!ft_init(&data, argc, argv))
 		return (0);
-	usleep(10000);
-	//initialiser routine
+	ft_to_finnish(&data);
+	usleep(10000000);
+	
 	//initialiser boucle avant fin
 	//free all;
 	return (0);
-
 }

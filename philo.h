@@ -6,7 +6,7 @@
 /*   By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 14:20:33 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/04 18:15:16 by amontalb         ###   ########.fr       */
+/*   Updated: 2023/01/05 12:20:53 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
-
+#define BLEUCLAIR "\033[01;34m"
+#define ROUGE "\033[00;31m"
+#define BLEU "\033[00;34m"
 
 
 typedef struct s_philo{
@@ -26,7 +28,7 @@ typedef struct s_philo{
 	int position;
 	int	last_meal;
 	int nbr_meal;
-	struct s_data *t_data;
+	struct s_data *data;
 }t_philo;
 
 typedef struct s_data{
@@ -48,8 +50,9 @@ int			ft_check_error(int argc, char **argv);
 int 		ft_get_time();
 long int	ft_atoi(const char *str);
 int			ft_init(t_data *data, int argc, char **argv);
-void		*ft_routine(t_philo *philo);
+void		*ft_routine(void *arg);
 int			ft_init_threads_forks(t_data *data);
+int 		ft_time_from_start(t_philo *philo);
 
 
 #endif

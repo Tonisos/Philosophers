@@ -6,17 +6,24 @@
 /*   By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 08:13:13 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/04 10:02:48 by amontalb         ###   ########.fr       */
+/*   Updated: 2023/01/05 09:03:10 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+
 
 int ft_get_time()
 {
 	struct timeval time;
 	gettimeofday(&time, NULL);
 	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
+}
+
+int ft_time_from_start(t_philo *philo)
+{
+	return((ft_get_time() - philo->data->start));
 }
 
 long int	ft_atoi(const char *str)
