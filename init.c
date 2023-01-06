@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amontalb <amontalb@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 10:15:32 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/05 11:06:33 by amontalb         ###   ########.fr       */
+/*   Updated: 2023/01/06 10:03:46 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_philo ft_init_philos(t_data *data, int i)
 {
 	t_philo philo;
 
-	philo.last_meal = 0;
+	philo.last_meal = ft_get_time();
 	philo.nbr_meal = 0;
 	philo.position = i + 1;
 	philo.data = data;
@@ -47,7 +47,6 @@ int ft_init_threads_forks(t_data *data)
 
 int	ft_init(t_data *data, int argc, char **argv)
 {
-	
 	data->start = ft_get_time();
 	data->nbr_philo = ft_atoi(argv[1]);
 	data->time_to_die = ft_atoi(argv[2]);
@@ -57,6 +56,7 @@ int	ft_init(t_data *data, int argc, char **argv)
 		data->nbr_meal = ft_atoi(argv[5]);
 	else
 		data->nbr_meal = -1;
+	printf("<<<>>>>>>>>\n");
 	ft_init_threads_forks(data);
 	
 	return (1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amontalb <amontalb@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:44:05 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/05 14:28:05 by amontalb         ###   ########.fr       */
+/*   Updated: 2023/01/06 09:53:47 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ void	eat(t_philo *philo)
 {
 	philo->nbr_meal += 1;
 	philo->last_meal = ft_get_time();
-	pthread_mutex_unlock(&philo->data->wait);
-	printf(BLEU "%d %d is eating\n" BLEU, ft_time_from_start(philo), philo->position);
 	pthread_mutex_lock(&philo->data->wait);
+	printf(BLEU "%llu %d is eating\n" BLEU, ft_time_from_start(philo), philo->position);
+	pthread_mutex_unlock(&philo->data->wait);
 }
 
 void	ft_forks(t_philo *philo, int *fork1, int *fork2)
@@ -42,22 +42,22 @@ void	ft_forks(t_philo *philo, int *fork1, int *fork2)
 void	ft_take_fork(t_philo *philo, int fork)
 {
 	pthread_mutex_lock(&philo->data->forks[fork - 1]);
-	pthread_mutex_unlock(&philo->data->wait);
-	printf(ROUGE"%d %d has taken a fork\n" ROUGE, ft_time_from_start(philo), philo->position);
 	pthread_mutex_lock(&philo->data->wait);
+	printf(ROUGE"%llu %d has taken a fork\n" ROUGE, ft_time_from_start(philo), philo->position);
+	pthread_mutex_unlock(&philo->data->wait);
 }
 
 void ft_drop_the_fork(t_philo *philo, int fork1, int fork2)
 {
 	pthread_mutex_unlock(&philo->data->forks[fork1 - 1]);
 	pthread_mutex_unlock(&philo->data->forks[fork2 - 1]);
-	pthread_mutex_unlock(&philo->data->wait);
-	printf(BLEUCLAIR"%d %d is sleeping\n", ft_time_from_start(philo), philo->position);
 	pthread_mutex_lock(&philo->data->wait);
+	printf(BLEUCLAIR"%llu %d is sleeping\n", ft_time_from_start(philo), philo->position);
+	pthread_mutex_unlock(&philo->data->wait);
 	usleep(philo->data->time_to_spleep * 1000);
-	pthread_mutex_unlock(&philo->data->wait);
-	printf("%d %d is thinking\n", ft_time_from_start(philo), philo->position);
 	pthread_mutex_lock(&philo->data->wait);
+	printf("%llu %d is thinking\n", ft_time_from_start(philo), philo->position);
+	pthread_mutex_unlock(&philo->data->wait);
 }
 
 

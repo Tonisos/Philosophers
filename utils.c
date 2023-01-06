@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amontalb <amontalb@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 08:13:13 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/05 14:21:53 by amontalb         ###   ########.fr       */
+/*   Updated: 2023/01/06 09:40:00 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 
 
 
-long long ft_get_time()
+unsigned long long ft_get_time()
 {
 	struct timeval time;
 	gettimeofday(&time, NULL);
-	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
+	return ((time.tv_sec * (uint64_t)1000) + (time.tv_usec / 1000));
 }
 
-int ft_time_from_start(t_philo *philo)
+unsigned long long ft_time_from_start(t_philo *philo)
 {
 	return((ft_get_time() - philo->data->start));
 }
 
-long int	ft_atoi(const char *str)
+unsigned long long	ft_atoi(const char *str)
 {
 	int		sign;
 	long	result;

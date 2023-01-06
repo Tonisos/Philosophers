@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amontalb <amontalb@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 14:18:12 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/05 14:29:04 by amontalb         ###   ########.fr       */
+/*   Updated: 2023/01/06 10:15:39 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,10 @@ int ft_to_finnish(t_data *data)
 		{
 			if ((ft_get_time() - data->philos[i].last_meal) > data->time_to_die)
 			{
-				pthread_mutex_unlock(&data->wait);
-				printf(NORMAL"[%d] Philosopher number %d died\n", ft_time_from_start(&data->philos[i]), data->philos[i].position);
+				printf("%llu\n", (ft_get_time() - data->philos[i].last_meal));
+				pthread_mutex_lock(&data->wait);
+				usleep(100);
+				printf(NORMAL"[%llu] Philosopher number %d died\n", ft_time_from_start(&data->philos[i]), data->philos[i].position);
 				exit (0);
 			}
 			i++;
@@ -53,9 +55,8 @@ int ft_to_finnish(t_data *data)
 int	main(int argc, char **argv)
 {
 	t_data data;
-	
-	// if (!ft_check_error(argc, argv))
-	// 	return (0);
+	if (!ft_check_error(argc, argv))
+		return (0);
 	if (!ft_init(&data, argc, argv))
 		return (0);
 	ft_to_finnish(&data);
