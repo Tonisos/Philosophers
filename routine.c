@@ -6,7 +6,7 @@
 /*   By: amontalb <amontalb@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:44:05 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/06 09:53:47 by amontalb         ###   ########.fr       */
+/*   Updated: 2023/01/06 17:29:02 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	ft_forks(t_philo *philo, int *fork1, int *fork2)
 		*fork2 = philo->position;
 		*fork1 = ((philo->position + 1) % philo->data->nbr_philo);
 		if (*fork1 == 0)
-			fork1 = &philo->data->nbr_philo;
+			*fork1 = philo->data->nbr_philo;
 	}
 }
 
@@ -43,7 +43,7 @@ void	ft_take_fork(t_philo *philo, int fork)
 {
 	pthread_mutex_lock(&philo->data->forks[fork - 1]);
 	pthread_mutex_lock(&philo->data->wait);
-	printf(ROUGE"%llu %d has taken a fork\n" ROUGE, ft_time_from_start(philo), philo->position);
+	printf(ROUGE"%llu %d has taken a fork %d\n" ROUGE, ft_time_from_start(philo), philo->position, fork);
 	pthread_mutex_unlock(&philo->data->wait);
 }
 
@@ -76,7 +76,7 @@ void	*ft_routine(void *arg)
 		ft_take_fork(philo, fork1);
 		ft_take_fork(philo, fork2);
 		eat(philo);
-		// usleep(philo->data->time_to_eat * 1000);
+		usleep(philo->data->time_to_eat * 1000);
 		ft_drop_the_fork(philo, fork1, fork2);		
 	}
 
