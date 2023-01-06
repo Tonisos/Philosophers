@@ -6,7 +6,7 @@
 /*   By: amontalb <amontalb@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 14:20:33 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/06 10:14:54 by amontalb         ###   ########.fr       */
+/*   Updated: 2023/01/06 18:10:54 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@
 #define ROUGE "\033[00;31m"
 #define BLEU "\033[00;34m"
 #define NORMAL "\033[00m"
+#define YELLOW "\033[33m"
+#define GREEN "\033[32m"
+#define GRAY "\033[2;37m"
 
 
 typedef struct s_philo{

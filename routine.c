@@ -6,7 +6,7 @@
 /*   By: amontalb <amontalb@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:44:05 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/06 17:29:02 by amontalb         ###   ########.fr       */
+/*   Updated: 2023/01/06 18:12:17 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	eat(t_philo *philo)
 	philo->nbr_meal += 1;
 	philo->last_meal = ft_get_time();
 	pthread_mutex_lock(&philo->data->wait);
-	printf(BLEU "%llu %d is eating\n" BLEU, ft_time_from_start(philo), philo->position);
+	printf(YELLOW "%llu %d is eating\n" BLEU, ft_time_from_start(philo), philo->position);
 	pthread_mutex_unlock(&philo->data->wait);
 }
 
@@ -56,7 +56,7 @@ void ft_drop_the_fork(t_philo *philo, int fork1, int fork2)
 	pthread_mutex_unlock(&philo->data->wait);
 	usleep(philo->data->time_to_spleep * 1000);
 	pthread_mutex_lock(&philo->data->wait);
-	printf("%llu %d is thinking\n", ft_time_from_start(philo), philo->position);
+	printf(GREEN"%llu %d is thinking\n", ft_time_from_start(philo), philo->position);
 	pthread_mutex_unlock(&philo->data->wait);
 }
 
