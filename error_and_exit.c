@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   error_and_exit.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 15:39:30 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/04 10:11:58 by amontalb         ###   ########.fr       */
+/*   Updated: 2023/01/09 08:40:05 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,17 @@ int	ft_check_error(int argc, char **argv)
 {
 	if (argc < 5 || argc > 6)
 		return (0);
-	if (ft_atoi(argv[1]) == 2147483648 || ft_atoi(argv[2]) < 2)
+	if ((int)ft_atoi(argv[1]) == -1 || ft_atoi(argv[2]) < 2)
 		return (0);
-	if (ft_atoi(argv[2]) == 2147483648)
+	if ((int)ft_atoi(argv[2]) == -1)
 		return (0);
-	if (ft_atoi(argv[3]) == 2147483648)
+	if ((int)ft_atoi(argv[3]) == -1)
 		return (0);
-	if (ft_atoi(argv[4]) == 2147483648)
+	if ((int)ft_atoi(argv[4]) == -1)
 		return (0);
 	if (argc == 6)
 	{
-		if (ft_atoi(argv[5]) == 2147483648)
+		if ((int)ft_atoi(argv[5]) == -1)
 			return (0);
 	}
 	return (1);

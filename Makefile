@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: amontalb <amontalb@student.42lyon.fr>      +#+  +:+       +#+         #
+#    By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/08 16:56:53 by amontalb          #+#    #+#              #
-#    Updated: 2023/01/02 14:20:01 by amontalb         ###   ########.fr        #
+#    Updated: 2023/01/09 08:36:12 by amontalb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = philo
 
 HEADERS = philo.h
 
-SOURCES = *.c
+SOURCES = main.c init.c error_and_exit.c routine.c utils.c
 	
 OBJECTS = $(SOURCES:.c=.o)
 

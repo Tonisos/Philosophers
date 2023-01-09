@@ -3,52 +3,47 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amontalb <amontalb@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 08:13:13 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/06 09:40:00 by amontalb         ###   ########.fr       */
+/*   Updated: 2023/01/09 08:42:21 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-
-
-unsigned long long ft_get_time()
+unsigned long long	ft_get_time(void)
 {
-	struct timeval time;
+	struct timeval	time;
+
 	gettimeofday(&time, NULL);
-	return ((time.tv_sec * (uint64_t)1000) + (time.tv_usec / 1000));
+	return ((time.tv_sec * (unsigned long long)1000) + (time.tv_usec / 1000));
 }
 
-unsigned long long ft_time_from_start(t_philo *philo)
+unsigned long long	ft_time_from_start(t_philo *philo)
 {
-	return((ft_get_time() - philo->data->start));
+	return ((ft_get_time() - philo->data->start));
 }
 
 unsigned long long	ft_atoi(const char *str)
 {
-	int		sign;
-	long	result;
+	unsigned long long	result;
 
 	result = 0;
-	sign = 1;
 	if (*str == 43 || *str == 45)
 	{
 		if (*str == 45)
-			sign = -1;
+			return (-1);
 		str++;
 	}
-	if (*str < '0' || *str > '9')
-		return (2147483648);
 	while (*str)
 	{
 		if (*str < '0' || *str > '9')
-			return (2147483648);
+			return (-1);
 		result = result * 10 + *str - '0';
 		str++;
 	}
-	if ((result * sign) > 2147483647 || (result * sign) < -2147483648)
-		return (2147483648);
-	return ((long)(result * sign));
+	if (result > __LONG_LONG_MAX__)
+		return (-1);
+	return (result);
 }
