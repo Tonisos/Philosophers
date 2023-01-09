@@ -6,7 +6,7 @@
 /*   By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 14:20:33 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/09 08:34:03 by amontalb         ###   ########.fr       */
+/*   Updated: 2023/01/09 10:28:21 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,6 @@ int					ft_init(t_data *data, int argc, char **argv);
 void				*ft_routine(void *arg);
 int					ft_init_threads_forks(t_data *data);
 unsigned long long	ft_time_from_start(t_philo *philo);
+void				ft_exit(t_data *data);
 
 #endif

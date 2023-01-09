@@ -6,7 +6,7 @@
 /*   By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 14:18:12 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/09 08:35:15 by amontalb         ###   ########.fr       */
+/*   Updated: 2023/01/09 11:26:17 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	ft_die(t_data *data)
 	{
 		if ((ft_get_time() - data->philos[i].last_meal) > data->time_to_die)
 		{
+			printf("<<%lld>>\n", (ft_get_time() - data->philos[i].last_meal));
+			printf("%lld\n", data->time_to_die);
 			data->philos[i].dead = 1;
 			pthread_mutex_lock(&data->wait);
 			printf(NORMAL"%llu %d died\n",
@@ -76,6 +78,9 @@ int	main(int argc, char **argv)
 	}
 	if (!ft_init(&data, argc, argv))
 		return (0);
+	// usleep(data.time_to_eat);
 	ft_to_finnish(&data);
+	// usleep(10000);
+	// ft_exit(&data);
 	return (0);
 }
