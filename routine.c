@@ -6,7 +6,7 @@
 /*   By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:44:05 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/11 08:40:48 by amontalb         ###   ########.fr       */
+/*   Updated: 2023/01/11 10:49:51 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,14 @@ void	eat(t_philo *philo)
 {
 	// if (philo->dead == 1)
 	// 	usleep (1000);
+	pthread_mutex_lock(&philo->dead);
+	philo->last_meal = ft_get_time();
+	philo->nbr_meal += 1;
 	pthread_mutex_lock(&philo->data->wait);
 	printf(YELLOW "%llu %d is eating\n" BLEU,
 		ft_time_from_start(philo), philo->position);
 	pthread_mutex_unlock(&philo->data->wait);
-	philo->last_meal = ft_get_time();
-	philo->nbr_meal += 1;
+	pthread_mutex_unlock(&philo->dead);
 }
 
 void	ft_forks(t_philo *philo, int *fork1, int *fork2)
@@ -44,7 +46,7 @@ void	ft_forks(t_philo *philo, int *fork1, int *fork2)
 
 void	ft_take_fork(t_philo *philo, int fork)
 {
-	printf ("<<%d>>>\n", pthread_mutex_lock(&philo->data->forks[fork - 1]));
+	pthread_mutex_lock(&philo->data->forks[fork - 1]);
 	pthread_mutex_lock(&philo->data->wait);
 	printf(ROUGE"%llu %d has taken a fork %d\n" ROUGE,
 		ft_time_from_start(philo), philo->position, fork);

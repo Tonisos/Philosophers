@@ -6,7 +6,7 @@
 /*   By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 10:15:32 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/11 08:45:46 by amontalb         ###   ########.fr       */
+/*   Updated: 2023/01/11 09:42:23 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_philo	ft_init_philos(t_data *data, int i)
 	philo.nbr_meal = 0;
 	philo.position = i + 1;
 	philo.data = data;
-	philo.dead = 0;
+	pthread_mutex_init(&philo.dead, NULL);
 	return (philo);
 }
 

@@ -6,7 +6,7 @@
 /*   By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 14:20:33 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/09 10:28:21 by amontalb         ###   ########.fr       */
+/*   Updated: 2023/01/11 09:41:51 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ typedef struct s_philo{
 	int					position;
 	unsigned long long	last_meal;
 	int					nbr_meal;
-	int					dead;
 	struct s_data		*data;
+	pthread_mutex_t		dead;
 }t_philo;
 
 typedef struct s_data{
