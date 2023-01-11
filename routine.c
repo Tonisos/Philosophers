@@ -6,7 +6,7 @@
 /*   By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:44:05 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/09 13:39:01 by amontalb         ###   ########.fr       */
+/*   Updated: 2023/01/11 08:40:48 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	ft_forks(t_philo *philo, int *fork1, int *fork2)
 
 void	ft_take_fork(t_philo *philo, int fork)
 {
-	pthread_mutex_lock(&philo->data->forks[fork - 1]);
+	printf ("<<%d>>>\n", pthread_mutex_lock(&philo->data->forks[fork - 1]));
 	pthread_mutex_lock(&philo->data->wait);
 	printf(ROUGE"%llu %d has taken a fork %d\n" ROUGE,
 		ft_time_from_start(philo), philo->position, fork);

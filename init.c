@@ -6,7 +6,7 @@
 /*   By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 10:15:32 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/09 08:34:17 by amontalb         ###   ########.fr       */
+/*   Updated: 2023/01/11 08:45:46 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,14 @@ int	ft_init_threads_forks(t_data *data)
 	data->threads = malloc(sizeof(pthread_t) * data->nbr_philo);
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->nbr_philo);
 	data->philos = malloc (sizeof(t_philo) * data->nbr_philo);
+	pthread_mutex_init(&data->wait, NULL);
 	if (!data->threads || !data->forks || !data->philos)
 		return (0);
 	while (i < data->nbr_philo)
 	{
 		data->philos[i] = ft_init_philos(data, i);
 		pthread_create(&data->threads[i], NULL, ft_routine, &data->philos[i]);
+		pthread_mutex_init(&data->forks[i], NULL);
 		i++;
 	}
 	return (0);
