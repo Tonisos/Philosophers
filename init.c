@@ -6,7 +6,7 @@
 /*   By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 10:15:32 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/11 09:42:23 by amontalb         ###   ########.fr       */
+/*   Updated: 2023/01/11 14:30:25 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	ft_init_threads_forks(t_data *data)
 	data->philos = malloc (sizeof(t_philo) * data->nbr_philo);
 	pthread_mutex_init(&data->wait, NULL);
 	if (!data->threads || !data->forks || !data->philos)
-		return (0);
+		return (1);
 	while (i < data->nbr_philo)
 	{
 		data->philos[i] = ft_init_philos(data, i);
@@ -56,6 +56,7 @@ int	ft_init(t_data *data, int argc, char **argv)
 		data->nbr_meal = ft_atoi(argv[5]);
 	else
 		data->nbr_meal = -1;
-	ft_init_threads_forks(data);
-	return (1);
+	if (ft_init_threads_forks(data))
+		return (1);
+	return (0);
 }

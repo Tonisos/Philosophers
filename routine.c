@@ -6,7 +6,7 @@
 /*   By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:44:05 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/11 14:08:22 by amontalb         ###   ########.fr       */
+/*   Updated: 2023/01/11 14:28:57 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,12 @@ void	ft_drop_the_fork(t_philo *philo, int fork1, int fork2)
 
 void	*ft_routine(void *arg)
 {
-	t_philo	*philo;
-	int		fork1;
-	int		fork2;
+	t_philo				*philo;
+	int					fork1;
+	int					fork2;
 	unsigned long long	time;
+
 	philo = (t_philo *) arg;
-	
 	ft_forks(philo, &fork1, &fork2);
 	while (1)
 	{

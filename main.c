@@ -6,7 +6,7 @@
 /*   By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 14:18:12 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/11 14:08:45 by amontalb         ###   ########.fr       */
+/*   Updated: 2023/01/11 14:31:02 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,10 @@
 
 int	ft_die(t_data *data)
 {
-	int	i;
-	unsigned long long t;
+	int					i;
+	unsigned long long	t;
 
 	i = 0;
-	
 	while (i < data->nbr_philo)
 	{
 		pthread_mutex_lock(&data->philos[i].dead);
@@ -43,7 +42,7 @@ int	ft_full_eat(t_data *data)
 
 	i = 0;
 	compt = 0;
-	if (data->nbr_meal== -1)
+	if (data->nbr_meal == -1)
 		return (0);
 	while (i < data->nbr_philo)
 	{
@@ -80,8 +79,11 @@ int	main(int argc, char **argv)
 		printf("Invalid arguments");
 		return (0);
 	}
-	if (!ft_init(&data, argc, argv))
+	if (ft_init(&data, argc, argv))
+	{
+		ft_exit(&data);
 		return (0);
+	}
 	usleep(data.time_to_eat);
 	ft_to_finnish(&data);
 	usleep(10000);
