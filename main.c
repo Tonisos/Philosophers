@@ -6,7 +6,7 @@
 /*   By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 14:18:12 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/11 11:02:36 by amontalb         ###   ########.fr       */
+/*   Updated: 2023/01/11 13:46:51 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,11 @@ int	ft_full_eat(t_data *data)
 
 	i = 0;
 	compt = 0;
-	if ((int)data->time_to_eat == -1)
+	if (data->nbr_meal== -1)
 		return (0);
 	while (i < data->nbr_philo)
 	{
-		if (data->philos[i].nbr_meal == data->nbr_meal)
+		if (data->philos[i].nbr_meal >= data->nbr_meal)
 			compt ++;
 		if (compt == data->nbr_philo)
 		{
