@@ -6,7 +6,7 @@
 /*   By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 14:18:12 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/11 14:31:02 by amontalb         ###   ########.fr       */
+/*   Updated: 2023/01/11 15:11:17 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	ft_full_eat(t_data *data)
 	return (0);
 }
 
-void	ft_to_finnish(t_data *data)
+void	ft_to_finish(t_data *data)
 {
 	while (1)
 	{
@@ -85,7 +85,7 @@ int	main(int argc, char **argv)
 		return (0);
 	}
 	usleep(data.time_to_eat);
-	ft_to_finnish(&data);
+	ft_to_finish(&data);
 	usleep(10000);
 	ft_exit(&data);
 	return (0);

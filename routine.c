@@ -6,7 +6,7 @@
 /*   By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:44:05 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/11 14:28:57 by amontalb         ###   ########.fr       */
+/*   Updated: 2023/01/11 15:28:17 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	*ft_routine(void *arg)
 		ft_take_fork(philo, fork1);
 		ft_take_fork(philo, fork2);
 		eat(philo);
-		time = ft_get_time() + philo->data->time_to_eat;
+		time = ft_get_time() + philo->data->time_to_eat - 60;
 		while (ft_get_time() <= time)
 			;
 		ft_drop_the_fork(philo, fork1, fork2);
