@@ -6,7 +6,7 @@
 /*   By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 15:39:30 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/11 14:12:10 by amontalb         ###   ########.fr       */
+/*   Updated: 2023/01/11 14:22:10 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,19 +51,12 @@ void	ft_exit(t_data *data)
 		free (data->threads);
 	}
 	i = 0;
-	// if (data->philos)
-	// {
-	// 	while (i < data->nbr_philo)
-	// 		free(&data->philos[i++]);
-	// 	free (data->philos);
-	// }
-	// pthread_mutex_destroy (&data->wait);
-	// free(data);
+	if (data->philos)
+	{
+		while (i < data->nbr_philo)
+			pthread_mutex_destroy(&data->philos[i++].dead);
+		free (data->philos);
+	}
+	pthread_mutex_destroy (&data->wait);
 }
 	
-// 	// // free les treads
-// 	// // free les struct de philo
-// 	// // free les fourchettes
-	
-
-// }
