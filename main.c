@@ -6,7 +6,7 @@
 /*   By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 14:18:12 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/11 15:11:17 by amontalb         ###   ########.fr       */
+/*   Updated: 2023/01/12 10:06:15 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	main(int argc, char **argv)
 		ft_exit(&data);
 		return (0);
 	}
-	usleep(data.time_to_eat);
+	ft_usleep(data.time_to_eat);
 	ft_to_finish(&data);
 	usleep(10000);
 	ft_exit(&data);

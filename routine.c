@@ -6,7 +6,7 @@
 /*   By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:44:05 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/11 15:28:17 by amontalb         ###   ########.fr       */
+/*   Updated: 2023/01/12 10:09:29 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	ft_drop_the_fork(t_philo *philo, int fork1, int fork2)
 	printf(BLEUCLAIR"%llu %d is sleeping\n",
 		ft_time_from_start(philo), philo->position);
 	pthread_mutex_unlock(&philo->data->wait);
-	usleep((philo->data->time_to_spleep * 1000));
+	ft_usleep((philo->data->time_to_spleep));
 	pthread_mutex_lock(&philo->data->wait);
 	printf(GREEN"%llu %d is thinking\n",
 		ft_time_from_start(philo), philo->position);
@@ -71,7 +71,6 @@ void	*ft_routine(void *arg)
 	t_philo				*philo;
 	int					fork1;
 	int					fork2;
-	unsigned long long	time;
 
 	philo = (t_philo *) arg;
 	ft_forks(philo, &fork1, &fork2);
@@ -80,9 +79,7 @@ void	*ft_routine(void *arg)
 		ft_take_fork(philo, fork1);
 		ft_take_fork(philo, fork2);
 		eat(philo);
-		time = ft_get_time() + philo->data->time_to_eat - 60;
-		while (ft_get_time() <= time)
-			;
+		ft_usleep(philo->data->time_to_eat);
 		ft_drop_the_fork(philo, fork1, fork2);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 08:13:13 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/09 08:42:21 by amontalb         ###   ########.fr       */
+/*   Updated: 2023/01/11 16:04:54 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,13 @@ unsigned long long	ft_atoi(const char *str)
 	if (result > __LONG_LONG_MAX__)
 		return (-1);
 	return (result);
+}
+
+void	ft_usleep(unsigned long long ms)
+{
+	unsigned long long	time;
+
+	time = ft_get_time();
+	while (ft_get_time() - time < ms)
+		usleep(ms / 10);
 }
