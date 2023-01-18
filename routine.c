@@ -6,7 +6,7 @@
 /*   By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:44:05 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/12 10:09:29 by amontalb         ###   ########.fr       */
+/*   Updated: 2023/01/18 12:47:51 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	eat(t_philo *philo)
 {
+	
 	pthread_mutex_lock(&philo->dead);
 	philo->last_meal = ft_get_time();
 	philo->nbr_meal += 1;
@@ -40,11 +41,13 @@ void	ft_forks(t_philo *philo, int *fork1, int *fork2)
 		if (*fork1 == 0)
 			*fork1 = philo->data->nbr_philo;
 	}
+	// printf("<<%d-%d>>\n", *fork1 - 1, *fork2 - 1);
 }
 
 void	ft_take_fork(t_philo *philo, int fork)
 {
 	pthread_mutex_lock(&philo->data->forks[fork - 1]);
+	// printf("<<>%d>>\n", fork);
 	pthread_mutex_lock(&philo->data->wait);
 	printf(ROUGE"%llu %d has taken a fork %d\n" ROUGE,
 		ft_time_from_start(philo), philo->position, fork);
@@ -53,13 +56,15 @@ void	ft_take_fork(t_philo *philo, int fork)
 
 void	ft_drop_the_fork(t_philo *philo, int fork1, int fork2)
 {
+	
 	pthread_mutex_unlock(&philo->data->forks[fork1 - 1]);
 	pthread_mutex_unlock(&philo->data->forks[fork2 - 1]);
 	pthread_mutex_lock(&philo->data->wait);
+	// printf("---%d---\n", fork2 - 1);
 	printf(BLEUCLAIR"%llu %d is sleeping\n",
 		ft_time_from_start(philo), philo->position);
 	pthread_mutex_unlock(&philo->data->wait);
-	ft_usleep((philo->data->time_to_spleep));
+	ft_usleep(philo->data->time_to_spleep);
 	pthread_mutex_lock(&philo->data->wait);
 	printf(GREEN"%llu %d is thinking\n",
 		ft_time_from_start(philo), philo->position);
@@ -74,6 +79,20 @@ void	*ft_routine(void *arg)
 
 	philo = (t_philo *) arg;
 	ft_forks(philo, &fork1, &fork2);
+	while(1)
+	{
+		pthread_mutex_lock(&philo->data->begin);
+		if (philo->data->ready)
+		{
+			pthread_mutex_unlock(&philo->data->begin);
+			break ;
+		}
+		pthread_mutex_unlock(&philo->data->begin);
+		
+	}
+	pthread_mutex_lock(&philo->dead);
+	philo->last_meal = ft_get_time();
+	pthread_mutex_unlock(&philo->dead);
 	while (1)
 	{
 		ft_take_fork(philo, fork1);
@@ -82,4 +101,5 @@ void	*ft_routine(void *arg)
 		ft_usleep(philo->data->time_to_eat);
 		ft_drop_the_fork(philo, fork1, fork2);
 	}
+	return (NULL);
 }

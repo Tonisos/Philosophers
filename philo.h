@@ -6,7 +6,7 @@
 /*   By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 14:20:33 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/11 16:04:24 by amontalb         ###   ########.fr       */
+/*   Updated: 2023/01/18 11:45:35 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,19 @@ typedef struct s_philo{
 }t_philo;
 
 typedef struct s_data{
+	int					ready;
 	unsigned long long	start;
 	int					nbr_philo;
 	unsigned long long	time_to_die;
 	unsigned long long	time_to_eat;
 	unsigned long long	time_to_spleep;
 	int					nbr_meal;
+	int					stop;
 	t_philo				*philos;
 	pthread_mutex_t		*forks;
 	pthread_t			*threads;
 	pthread_mutex_t		wait;
+	pthread_mutex_t		begin;
 }t_data;
 
 int					ft_check_error(int argc, char **argv);

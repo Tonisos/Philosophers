@@ -6,7 +6,7 @@
 /*   By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 14:18:12 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/12 10:06:15 by amontalb         ###   ########.fr       */
+/*   Updated: 2023/01/18 12:06:49 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	ft_die(t_data *data)
 			pthread_mutex_lock(&data->wait);
 			printf(NORMAL"%llu %d died\n",
 				ft_time_from_start(&data->philos[i]), data->philos[i].position);
+			pthread_mutex_unlock(&data->philos[i].dead);
 			return (1);
 		}
 		pthread_mutex_unlock(&data->philos[i].dead);
@@ -84,9 +85,20 @@ int	main(int argc, char **argv)
 		ft_exit(&data);
 		return (0);
 	}
+	while(1)
+	{
+		pthread_mutex_lock(&data.begin);
+		if (data.ready)
+		{
+			pthread_mutex_unlock(&data.begin);
+			break ;
+		}
+		pthread_mutex_unlock(&data.begin);
+	}
 	ft_usleep(data.time_to_eat);
 	ft_to_finish(&data);
-	usleep(10000);
-	ft_exit(&data);
+	usleep(100000);
+	// ft_exit(&data);
+	
 	return (0);
 }

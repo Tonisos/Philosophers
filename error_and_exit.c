@@ -6,7 +6,7 @@
 /*   By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 15:39:30 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/11 14:47:35 by amontalb         ###   ########.fr       */
+/*   Updated: 2023/01/18 11:05:18 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	ft_check_error(int argc, char **argv)
 {
 	if (argc < 5 || argc > 6)
 		return (0);
-	// printf("%d\n", ft_atoi(argv[1]));
 	if ((int)ft_atoi(argv[1]) == -1 || ft_atoi(argv[1]) < 1)
 		return (0);
 	if ((int)ft_atoi(argv[2]) == -1)
@@ -41,14 +40,18 @@ void	ft_exit(t_data *data)
 	if (data->forks)
 	{
 		while (i < data->nbr_philo)
-			pthread_mutex_destroy (&data->forks[i++]);
+			pthread_mutex_destroy(&data->forks[i++]);
 		free (data->forks);
 	}
 	i = 0;
 	if (data->threads)
 	{
 		while (i < data->nbr_philo)
-			pthread_detach(data->threads[i++]);
+		{
+			printf("TESTTTTTTTT\n");
+			pthread_detach(data->threads[i]);
+			i++;
+		}
 		free (data->threads);
 	}
 	i = 0;

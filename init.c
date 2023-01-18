@@ -6,7 +6,7 @@
 /*   By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 10:15:32 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/11 14:30:25 by amontalb         ###   ########.fr       */
+/*   Updated: 2023/01/18 11:50:10 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,29 @@ int	ft_init_threads_forks(t_data *data)
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->nbr_philo);
 	data->philos = malloc (sizeof(t_philo) * data->nbr_philo);
 	pthread_mutex_init(&data->wait, NULL);
+	pthread_mutex_init(&data->begin, NULL);
 	if (!data->threads || !data->forks || !data->philos)
 		return (1);
 	while (i < data->nbr_philo)
 	{
 		data->philos[i] = ft_init_philos(data, i);
-		pthread_create(&data->threads[i], NULL, ft_routine, &data->philos[i]);
 		pthread_mutex_init(&data->forks[i], NULL);
+		pthread_create(&data->threads[i], NULL, ft_routine, &data->philos[i]);
+		// pthread_detach(data->threads[i]);
 		i++;
 	}
+	pthread_mutex_lock(&data->begin);
+	data->ready = 1;
+	data->start = ft_get_time();
+	pthread_mutex_unlock(&data->begin);
 	return (0);
 }
 
 int	ft_init(t_data *data, int argc, char **argv)
 {
 	data->start = ft_get_time();
+	data->ready = 0;
+	data->stop = 0;
 	data->nbr_philo = ft_atoi(argv[1]);
 	data->time_to_die = ft_atoi(argv[2]);
 	data->time_to_eat = ft_atoi(argv[3]);
