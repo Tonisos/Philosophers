@@ -6,7 +6,7 @@
 /*   By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 14:20:33 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/18 11:45:35 by amontalb         ###   ########.fr       */
+/*   Updated: 2023/01/20 10:38:45 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ typedef struct s_data{
 	pthread_t			*threads;
 	pthread_mutex_t		wait;
 	pthread_mutex_t		begin;
+	pthread_mutex_t		finish;
+	pthread_mutex_t		eat;
 }t_data;
 
 int					ft_check_error(int argc, char **argv);
@@ -60,5 +62,7 @@ int					ft_init_threads_forks(t_data *data);
 unsigned long long	ft_time_from_start(t_philo *philo);
 void				ft_exit(t_data *data);
 void				ft_usleep(unsigned long long ms);
+int					ft_die(t_data *data);
+void				*ft_check_death(void *arg);
 
 #endif

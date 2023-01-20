@@ -6,17 +6,18 @@
 /*   By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 14:44:05 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/18 12:47:51 by amontalb         ###   ########.fr       */
+/*   Updated: 2023/01/20 12:41:38 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 void	eat(t_philo *philo)
-{
-	
+{	
 	pthread_mutex_lock(&philo->dead);
 	philo->last_meal = ft_get_time();
+	
+	// pthread_detach(death);
 	philo->nbr_meal += 1;
 	pthread_mutex_lock(&philo->data->wait);
 	printf(YELLOW "%llu %d is eating\n" BLEU,
@@ -27,36 +28,27 @@ void	eat(t_philo *philo)
 
 void	ft_forks(t_philo *philo, int *fork1, int *fork2)
 {
-	if (philo->position % 2 != 0)
-	{
-		*fork1 = philo->position;
-		*fork2 = (((philo->position) + 1) % philo->data->nbr_philo);
-		if (*fork2 == 0)
-			*fork2 = philo->data->nbr_philo;
-	}
-	else
-	{
-		*fork2 = philo->position;
-		*fork1 = ((philo->position + 1) % philo->data->nbr_philo);
-		if (*fork1 == 0)
-			*fork1 = philo->data->nbr_philo;
-	}
-	// printf("<<%d-%d>>\n", *fork1 - 1, *fork2 - 1);
+
+	*fork1 = philo->position;
+	*fork2 = (((philo->position) + 1) % philo->data->nbr_philo);
+	if (*fork2 == 0)
+		*fork2 = philo->data->nbr_philo;
 }
 
 void	ft_take_fork(t_philo *philo, int fork)
 {
+	// pthread_mutex_lock(&philo->dead);
+
 	pthread_mutex_lock(&philo->data->forks[fork - 1]);
-	// printf("<<>%d>>\n", fork);
 	pthread_mutex_lock(&philo->data->wait);
 	printf(ROUGE"%llu %d has taken a fork %d\n" ROUGE,
 		ft_time_from_start(philo), philo->position, fork);
 	pthread_mutex_unlock(&philo->data->wait);
+	// pthread_mutex_unlock(&philo->dead);
 }
 
 void	ft_drop_the_fork(t_philo *philo, int fork1, int fork2)
 {
-	
 	pthread_mutex_unlock(&philo->data->forks[fork1 - 1]);
 	pthread_mutex_unlock(&philo->data->forks[fork2 - 1]);
 	pthread_mutex_lock(&philo->data->wait);
@@ -71,8 +63,29 @@ void	ft_drop_the_fork(t_philo *philo, int fork1, int fork2)
 	pthread_mutex_unlock(&philo->data->wait);
 }
 
+void	*ft_check_death(void *arg)
+{
+	t_philo		*philo;
+	
+	philo = (t_philo *) arg;
+	printf("%lld\n", ft_time_from_start(philo));
+	ft_usleep(philo->data->time_to_die + 1);
+	
+	pthread_mutex_lock(&philo->data->eat);
+	if(ft_get_time() - philo->last_meal > philo->data->time_to_die)
+	{
+		pthread_mutex_lock(&philo->data->finish);
+		philo->data->stop = philo->position;
+		pthread_mutex_unlock(&philo->data->finish);
+	}
+	pthread_mutex_unlock(&philo->data->eat);
+	return (NULL);
+}
+
+
 void	*ft_routine(void *arg)
 {
+	pthread_t death;
 	t_philo				*philo;
 	int					fork1;
 	int					fork2;
@@ -90,11 +103,18 @@ void	*ft_routine(void *arg)
 		pthread_mutex_unlock(&philo->data->begin);
 		
 	}
-	pthread_mutex_lock(&philo->dead);
 	philo->last_meal = ft_get_time();
-	pthread_mutex_unlock(&philo->dead);
+	if (philo->position % 2 == 0)
+		ft_usleep((philo->data->time_to_eat / 10));
+		
 	while (1)
 	{
+		// printf("%lld\n", ft_time_from_start(philo));
+		// ft_usleep(100);
+		
+		pthread_create(&death, NULL, ft_check_death, &philo->data->philos[philo->position - 1]);
+		pthread_detach(death);
+		// printf("<<<>>>>\n");
 		ft_take_fork(philo, fork1);
 		ft_take_fork(philo, fork2);
 		eat(philo);
