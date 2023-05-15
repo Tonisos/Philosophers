@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/04 08:13:13 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/16 09:28:38 by amontalb         ###   ########.fr       */
+/*   Created: 2023/03/22 10:57:07 by amontalb          #+#    #+#             */
+/*   Updated: 2023/03/29 13:31:57 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,13 @@ unsigned long long	ft_get_time(void)
 	return ((time.tv_sec * (unsigned long long)1000) + (time.tv_usec / 1000));
 }
 
-unsigned long long	ft_time_from_start(t_philo *philo)
+unsigned long long	ft_time_from_start(void)
 {
-	return ((ft_get_time() - philo->data->start));
+	static long long	begin = 0;
+
+	if (!begin)
+		begin = ft_get_time();
+	return (ft_get_time() - begin);
 }
 
 unsigned long long	ft_atoi(const char *str)
@@ -55,4 +59,22 @@ void	ft_usleep(unsigned long long ms)
 	time = ft_get_time();
 	while (ft_get_time() - time < ms)
 		usleep(ms / 10);
+}
+
+int	ft_print(char *str, t_philo *philo)
+{
+	int	status;
+
+	pthread_mutex_lock(&philo->data->wait);
+	status = philo->data->status;
+	philo->status = status;
+	if (ft_strncmp(str, "is eating", 9) == 0)
+	{
+		philo->last_meal = ft_time_from_start();
+		philo->nbr_meal++;
+	}
+	if (status)
+		printf("%lld %d %s\n", ft_time_from_start(), philo->position + 1, str);
+	pthread_mutex_unlock(&philo->data->wait);
+	return (status);
 }

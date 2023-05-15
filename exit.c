@@ -6,7 +6,7 @@
 /*   By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 15:39:30 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/18 15:37:50 by amontalb         ###   ########.fr       */
+/*   Updated: 2023/03/27 13:01:54 by amontalb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,36 +31,3 @@ int	ft_check_error(int argc, char **argv)
 	}
 	return (1);
 }
-
-void	ft_exit(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	if (data->forks)
-	{
-		while (i < data->nbr_philo)
-			pthread_mutex_destroy(&data->forks[i++]);
-		free (data->forks);
-	}
-	i = 0;
-	if (data->threads)
-	{
-		while (i < data->nbr_philo)
-		{
-			printf("TESTTTTTTTT\n");
-			pthread_detach(data->threads[i]);
-			i++;
-		}
-		free (data->threads);
-	}
-	i = 0;
-	if (data->philos)
-	{
-		while (i < data->nbr_philo)
-			pthread_mutex_destroy(&data->philos[i++].dead);
-		free (data->philos);
-	}
-	pthread_mutex_destroy (&data->wait);
-}
-	

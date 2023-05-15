@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/12/08 16:56:53 by amontalb          #+#    #+#              #
-#    Updated: 2023/01/09 08:36:12 by amontalb         ###   ########.fr        #
+#    Created: 2023/03/22 10:56:05 by amontalb          #+#    #+#              #
+#    Updated: 2023/03/29 17:20:46 by amontalb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,18 +14,19 @@ NAME = philo
 
 HEADERS = philo.h
 
-SOURCES = main.c init.c error_and_exit.c routine.c utils.c
+SOURCES = main.c utils.c utils2.c init.c exit.c routine.c
 	
 OBJECTS = $(SOURCES:.c=.o)
 
-CFLAGS = -Wall -Wextra -Werror -I .
+CFLAGS = -Wall -Wextra -pthread -g3 -I .
 
-all :    $(NAME)
+all : 
+	$(MAKE) $(NAME)
 
 $(NAME) : $(OBJECTS)
-	${CC} ${CFLAG} -o $@ $^
+	${CC} $^ ${CFLAGS} -o $@
 	
-%.o : %.c $(HEADERS) Makefile
+%.o : %.c $(HEADERS) 
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean :

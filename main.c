@@ -1,125 +1,86 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amontalb <amontalb@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/02 14:18:12 by amontalb          #+#    #+#             */
-/*   Updated: 2023/01/20 12:10:35 by amontalb         ###   ########.fr       */
-/*                                                                            */
+/*																			*/
+/*														:::	  ::::::::   */
+/*   main.c											 :+:	  :+:	:+:   */
+/*													+:+ +:+		 +:+	 */
+/*   By: amontalb <amontalb@student.42.fr>		  +#+  +:+	   +#+		*/
+/*												+#+#+#+#+#+   +#+		   */
+/*   Created: 2023/03/22 10:55:29 by amontalb		  #+#	#+#			 */
+/*   Updated: 2023/03/29 13:16:56 by amontalb		 ###   ########.fr	   */
+/*																			*/
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int ft_die(t_data *data)
+static int	check_end(t_philo *philos)
 {
+	int	i;
+	int	j;
 
-	pthread_mutex_lock(&data->finish);
-	if(data->stop)
+	i = -1;
+	j = 0;
+	while (++i < philos->data->nbr_philo)
 	{
-		pthread_mutex_lock(&data->wait);
-		printf(NORMAL"%llu %d died\n",
-				ft_time_from_start(&data->philos[data->stop]), data->philos[data->stop].position);
-		return (1);
-	}
-	pthread_mutex_unlock(&data->finish);
-	return (0);
-}
-
-
-// int	ft_die(t_data *data)
-// {
-// 	int					i;
-// 	unsigned long long	t;
-
-// 	i = 0;
-// 	while (i < data->nbr_philo)
-// 	{
-// 	// printf("<<<%lld>>>\n", ft_time_from_start(&data->philos[1]));
-// 		pthread_mutex_lock(&data->philos[i].dead);
-// 		t = ft_get_time() - data->philos[i].last_meal;
-// 		// pthread_mutex_unlock(&data->philos[i].dead);
-// 		if (t > data->time_to_die)
-// 		{
-// 			pthread_mutex_lock(&data->wait);
-// 			printf(NORMAL"%llu %d died\n",
-// 				ft_time_from_start(&data->philos[i]), data->philos[i].position);
-// 			pthread_mutex_unlock(&data->philos[i].dead);
-// 			return (1);
-// 		}
-// 		pthread_mutex_unlock(&data->philos[i].dead);
-// 		i++;
-		
-// 	}
-// 	return (0);
-// }
-
-// int	ft_full_eat(t_data *data)
-// {
-// 	int	i;
-// 	int	compt;
-
-// 	i = 0;
-// 	compt = 0;
-// 	if (data->nbr_meal == -1)
-// 		return (0);
-// 	while (i < data->nbr_philo)
-// 	{
-// 		if (data->philos[i].nbr_meal >= data->nbr_meal)
-// 			compt ++;
-// 		if (compt == data->nbr_philo)
-// 		{
-// 			pthread_mutex_lock(&data->wait);
-// 			printf("Every one is full\n");
-// 			return (1);
-// 		}
-// 			i++;
-// 	}
-// 	return (0);
-// }
-
-void	ft_to_finish(t_data *data)
-{
-	while (1)
-	{
-		if (ft_die(data))
+		if (philos[i].nbr_meal == philos->data->nbr_meal)
+			j++;
+		if ((philos[i].last_meal + philos->data->time_to_die)
+			< ft_time_from_start()
+			|| j == philos->data->nbr_philo)
 		{
-			return ;
+			if (j != philos->data->nbr_philo)
+				printf("%lld %d died\n", ft_time_from_start(),
+					philos[i].position + 1);
+			philos->data->status = 0;
+			return (0);
 		}
 	}
+	return (1);
+}
+
+static void	wait_end(t_data *data)
+{
+	int	i;
+
+	i = -1;
+	while (++i < data->nbr_philo)
+		pthread_join(data->threads[i], NULL);
+}
+
+static void	free_and_destroy(t_data *data)
+{
+	int	i;
+
+	i = -1;
+	while (++i < data->nbr_philo)
+		pthread_mutex_destroy(&data->philos[i].fork);
+	pthread_mutex_destroy(&data->wait);
+	if (data->philos != NULL)
+		free(data->philos);
+	if (data->threads != NULL)
+		free(data->threads);
 }
 
 int	main(int argc, char **argv)
 {
 	t_data	data;
+	int		run;
 
+	run = 1;
 	if (!ft_check_error(argc, argv))
 	{
 		printf("Invalid arguments");
 		return (0);
 	}
-	if (ft_init(&data, argc, argv))
+	ft_init(&data, argc, argv);
+	run = data.status;
+	while (run)
 	{
-		ft_exit(&data);
-		return (0);
+		pthread_mutex_lock(&data.wait);
+		run = check_end(data.philos);
+		pthread_mutex_unlock(&data.wait);
+		usleep(100);
 	}
-	while(1)
-	{
-		pthread_mutex_lock(&data.begin);
-		if (data.ready)
-		{
-			pthread_mutex_unlock(&data.begin);
-			break ;
-		}
-		pthread_mutex_unlock(&data.begin);
-	}
-	// printf("<<<%lld>>>\n", ft_time_from_start(&data.philos[1]));
-	// ft_usleep(data.time_to_eat);
-	ft_to_finish(&data);
-	usleep(1000);
-	// ft_exit(&data);
-	
-
+	wait_end(&data);
+	free_and_destroy(&data);
 	return (0);
 }
